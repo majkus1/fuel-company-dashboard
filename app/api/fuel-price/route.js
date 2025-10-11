@@ -1,5 +1,6 @@
 // app/api/fuel-price/route.js
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import FuelPrice from '@/lib/models/FuelPrice';
 import { getUserFromRequest } from '@/lib/auth';
@@ -99,6 +100,9 @@ export async function PUT(request) {
       { price },
       { new: true, upsert: true }
     );
+
+    // Revalidate homepage to show new price immediately
+    revalidatePath('/');
 
     return NextResponse.json(
       { success: true, price: updatedPrice.price },

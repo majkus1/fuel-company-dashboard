@@ -1,5 +1,6 @@
 // app/api/date-price/route.js
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import connectDB from '@/lib/mongodb';
 import DatePrice from '@/lib/models/DatePrice';
 import { getUserFromRequest } from '@/lib/auth';
@@ -99,6 +100,9 @@ export async function PUT(request) {
       { datprice },
       { new: true, upsert: true }
     );
+
+    // Revalidate homepage to show new date immediately
+    revalidatePath('/');
 
     return NextResponse.json(
       { success: true, datprice: updatedDatePrice.datprice },
