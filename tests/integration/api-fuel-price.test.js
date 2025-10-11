@@ -12,6 +12,11 @@ vi.mock('next/server', () => ({
   },
 }));
 
+// Mock revalidatePath
+vi.mock('next/cache', () => ({
+  revalidatePath: vi.fn(),
+}));
+
 // Mock MongoDB connection
 vi.mock('@/lib/mongodb', () => ({
   default: vi.fn().mockResolvedValue(true),
