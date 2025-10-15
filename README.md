@@ -423,7 +423,7 @@ This is a commercial project for AGMAR Paliwa. All rights reserved.
 
 Built with modern web technologies and security best practices.
 
-**Contact:** [Your contact information]
+**Contact:** michalipka1@gmail.com
 
 ---
 
