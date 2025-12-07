@@ -423,14 +423,13 @@ This is a commercial project for AGMAR Paliwa. All rights reserved.
 
 Built with modern web technologies and security best practices.
 
-**Contact:** [Your contact information]
+**Contact:** michalipka1@gmail.com
 
 ---
 
 ## 🔗 Links
 
 - **Live Site:** [agmar-paliwa.pl](https://agmar-paliwa.pl)
-- **Documentation:** See `/tests/README.md` for testing details
 - **Next.js Docs:** [nextjs.org/docs](https://nextjs.org/docs)
 
 ---
