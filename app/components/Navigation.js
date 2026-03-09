@@ -55,7 +55,7 @@ export default function Navigation({ activePage }) {
             aria-label={mobileOpen ? 'Zamknij menu' : 'Otwórz menu'}
           >
             {mobileOpen ? (
-              <span className="inline-flex h-6 w-6 items-center justify-center text-3xl leading-none text-white">✕</span>
+              <Image src="/img/close.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" />
             ) : (
               <Image src="/img/hamburger.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" />
             )}
