@@ -1,5 +1,6 @@
-// app/page.js
 import Link from 'next/link';
+import Image from 'next/image';
+import Navigation from './components/Navigation';
 import PriceDisplay from './components/PriceDisplay.jsx';
 
 export const metadata = {
@@ -11,72 +12,42 @@ export const metadata = {
 export default function Home() {
   return (
     <>
-      <header id="strona-glowna">
-        <nav className="navdesktop-list" style={{ maxWidth: '100%' }}>
-          <div className="nav-item">
-            <Link href="/">
-              <img src="/img/oil.png" alt="znak logo krople paliwa" className="logo" />
-              <p>AGMAR</p>
-            </Link>
-          </div>
-        </nav>
-
-        <nav className="mobilenav">
-          <div>
-            <Link href="/" className="nav-item">
-              <img src="/img/oil.png" alt="znak logo krople paliwa" className="logo" />
-              <p>AGMAR</p>
-            </Link>
-          </div>
-        </nav>
-
-        <img
-          src="/img/main-new-pht-desktop.jpg"
-          alt="tło głównej strony a na nim 4 pojazdy firmowe na trasie z tyłu znajduje się pole"
-          className="hero-img"
-          loading="eager"
-        />
-        <img
-          src="/img/new-main-pht.jpg"
-          alt="tło głównej strony a na nim 4 pojazdy firmowe na trasie z tyłu znajduje się pole"
-          className="hero-imgmobile"
-          loading="eager"
-        />
-        <img
-          src="/img/new-main-pht.jpg"
-          alt="tło głównej strony a na nim 4 pojazdy firmowe na trasie z tyłu znajduje się pole"
-          className="hero-imgmedium"
-          loading="eager"
-        />
-        <div className="hero-shadow section">
-          <div className="hero-text">
-            <h1>Sprzedaż olejów napędowych</h1>
-            <p>z dostawą na terenach województwa śląskiego oraz małopolskiego.</p>
-            <div className="buttonslinks">
-              <Link href="/o-firmie" className="btns">
+      <Navigation activePage="home" />
+      <main className="relative min-h-screen">
+        {/* Hero - full viewport, image + overlay */}
+        <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden">
+          <Image
+            src="/img/main-new-pht-desktop.jpg"
+            alt="tło głównej strony a na nim 4 pojazdy firmowe na trasie z tyłu znajduje się pole"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="hero-overlay absolute inset-0" />
+          <div className="container-narrow relative z-10 flex flex-col items-center text-center">
+            <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
+              Sprzedaż olejów napędowych
+            </h1>
+            <p className="mt-4 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl">
+              z dostawą na terenach województwa śląskiego oraz małopolskiego.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+              <Link href="/o-firmie" className="btn-primary">
                 O firmie
               </Link>
-              <Link href="/oferta" className="btns">
+              <Link href="/oferta" className="btn-outline">
                 Oferta
               </Link>
-              <Link href="/kontakt" className="btns">
+              <Link href="/kontakt" className="btn-outline">
                 Kontakt
               </Link>
             </div>
           </div>
-          <div className="hero-textmobile">
-            <h1>Sprzedaż olejów napędowych</h1>
-            <p>z dostawą na terenach województwa śląskiego oraz małopolskiego.</p>
-            <div className="buttonsoflinksmobile">
-              <Link href="/o-firmie">O firmie</Link>
-              <Link href="/oferta">Oferta</Link>
-              <Link href="/kontakt">Kontakt</Link>
-            </div>
-          </div>
-        </div>
-      </header>
-      <PriceDisplay />
+        </section>
+
+        <PriceDisplay />
+      </main>
     </>
   );
 }
-

@@ -1,7 +1,29 @@
-// app/o-firmie/page.js
 import Image from 'next/image';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
+
+const highlights = [
+  {
+    img: '/img/calendar.png',
+    alt: 'znaczek kalendarza',
+    title: '16 lat doświadczenia',
+  },
+  {
+    img: '/img/team.png',
+    alt: 'znaczek uściśniętych dłoni',
+    title: 'Tysiące zrealizowanych zamówień',
+  },
+  {
+    img: '/img/express-delivery.png',
+    alt: 'znaczek samochodu z dostawą',
+    title: 'Terminowa i szybka dostawa',
+  },
+  {
+    img: '/img/communicate.png',
+    alt: 'znaczek komunikacji mailem lub telefonem',
+    title: 'Szybki i łatwy kontakt',
+  },
+];
 
 export const metadata = {
   title: 'AGMAR paliwa b7 i b0 | O firmie',
@@ -12,110 +34,54 @@ export const metadata = {
 export default function About() {
   return (
     <>
-      <header id="headernav">
-        <Navigation activePage="about" />
-      </header>
+      <Navigation activePage="about" />
+      <main className="min-h-screen pt-20">
+        <section className="container-narrow py-16 md:py-24">
+          <h1 className="section-heading">O firmie</h1>
+          <div className="section-heading-accent" />
 
-      <div className="section wrapper" id="o-firmie">
-        <section className="aboutcompany">
-          <div className="infoaboutcompany">
-            <div className="abouttext">
-              <h3>O firmie</h3>
-              <div className="line line-left"></div>
-              <div className="shortline shortline-left"></div>
-              <p>
+          <div className="mt-12 space-y-6">
+              <p className="leading-relaxed text-gray-300">
                 Nasza firma oferuje głównie olej napędowy najwyższej jakości oraz transport paliwa na terenie
                 województwa śląskiego oraz małopolskiego. Dostarczamy wyłącznie paliwo od największych polskich
                 producentów.
               </p>
-              <div className="imgaboutdesktop">
+              <div className="relative aspect-[16/6] overflow-hidden rounded-2xl lg:aspect-[760/230]">
                 <Image
                   src="/img/flota3.webp"
-                  alt="pojazd firmy a w tle rafinferia"
-                  className="imgaboutdesktop"
-                  sizes="100vw"
-                  width={760}
-                  height={230}
-                  loading="eager"
+                  alt="pojazd firmy a w tle rafineria"
+                  fill
+                  className="object-cover lg:object-contain"
+                  sizes="(max-width: 1024px) 100vw, 760px"
                 />
               </div>
-              <div className="imgabout">
-                <Image
-                  src="/img/flota3.webp"
-                  alt="pojazd firmy a w tle rafinferia"
-                  sizes="100vw"
-                  style={{ width: '100%', height: '120' }}
-                  width={0}
-                  height={120}
-                  loading="eager"
-                />
-              </div>
-              <h2>Co nas wyróżnia?</h2>
-              <p>
+              <h2 className="text-xl font-semibold text-brand-green">Co nas wyróżnia?</h2>
+              <p className="leading-relaxed text-gray-300">
                 Wyróżnia nas duże doświadczenie w branży, gdyż zajmujemy się sprzedażą paliw od 2006 roku. Udało nam się
                 zrealizować tysiące zamówień, czego wynikiem są zadowoleni klienci, którzy chętnie ponownie korzystają z
                 naszych usług, dzięki możliwości łatwego i szybkiego kontaktu z nami.
               </p>
-              <h2>Dla kogo jesteśmy?</h2>
-              <p>
+              <h2 className="text-xl font-semibold text-brand-green">Dla kogo jesteśmy?</h2>
+              <p className="leading-relaxed text-gray-300">
                 Obsługujemy indywidualnych odbiorców, bazy transportowe oraz stacje paliw. Dbamy o naszych klientów a
                 każda dostawa posiada świadectwo jakości.
               </p>
-            </div>
-          </div>
-          <div className="abouticon">
-            <div className="iconsone">
-              <div className="years">
-                <img src="/img/calendar.png" alt="znaczek kalendarza" />
-                <p>
-                  16 lat <br /> doświadczenia
-                </p>
-              </div>
-              <div className="clients">
-                <img src="/img/team.png" alt="znaczek uściśniętych dłoni" />
-                <p>
-                  Tysiące zrealizowanych <br /> zamówień
-                </p>
-              </div>
-            </div>
-            <div className="iconstwo">
-              <div className="fasttransport">
-                <img src="/img/express-delivery.png" alt="znaczek samochodu z dostawą" />
-                <p>
-                  Terminowa i szybka <br /> dostawa
-                </p>
-              </div>
-              <div className="contacts">
-                <img src="/img/communicate.png" alt="znaczek komunkacji mailem lub telefonem" />
-                <p>
-                  Szybki i łatwy <br /> kontakt
-                </p>
-              </div>
-            </div>
           </div>
 
-          <div className="abouticondesktop">
-            <div className="years">
-              <img src="/img/calendar.png" alt="znaczek kalendarza" />
-              <p>16 lat doświadczenia</p>
-            </div>
-            <div className="clients">
-              <img src="/img/team.png" alt="znaczek uściśniętych dłoni" />
-              <p>Tysiące zrealizowanych zamówień</p>
-            </div>
-            <div className="fasttransport">
-              <img src="/img/express-delivery.png" alt="znaczek samochodu z dostawą" />
-              <p>Terminowa i szybka dostawa</p>
-            </div>
-            <div className="contacts">
-              <img src="/img/communicate.png" alt="znaczek komunkacji mailem lub telefonem" />
-              <p>Szybki i łatwy kontakt</p>
-            </div>
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+            {highlights.map(({ img, alt, title }) => (
+              <div
+                key={title}
+                className="flex flex-col items-center rounded-2xl border border-white/10 bg-brand-card/50 p-6 text-center transition-colors hover:border-brand-green/30"
+              >
+                <img src={img} alt={alt} className="h-14 w-14 object-contain" />
+                <p className="mt-4 font-medium text-white">{title}</p>
+              </div>
+            ))}
           </div>
         </section>
-      </div>
+      </main>
       <Footer />
     </>
   );
 }
-

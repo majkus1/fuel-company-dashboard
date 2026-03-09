@@ -1,4 +1,3 @@
-// app/components/ContactForm.js
 'use client';
 
 import { useState } from 'react';
@@ -27,108 +26,104 @@ export default function ContactForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Reset status
     setStatusMessage('');
     setIsSubmitting(true);
 
-    // Validation
-    let errors = { email: '', phone: '', message: '' };
+    const newErrors = { email: '', phone: '', message: '' };
+    if (!validateEmail(email)) newErrors.email = 'Niepoprawny format e-mail';
+    if (!validatePhone(phone)) newErrors.phone = 'Niepoprawny format numeru telefonu (9 cyfr)';
+    if (!validateMessage(message)) newErrors.message = 'Wiadomość musi mieć co najmniej 10 znaków';
+    setErrors(newErrors);
 
-    if (!validateEmail(email)) {
-      errors.email = 'Niepoprawny format e-mail';
-    }
-
-    if (!validatePhone(phone)) {
-      errors.phone = 'Niepoprawny format numeru telefonu (9 cyfr)';
-    }
-
-    if (!validateMessage(message)) {
-      errors.message = 'Wiadomość musi mieć co najmniej 10 znaków';
-    }
-
-    setErrors(errors);
-
-    if (errors.email === '' && errors.phone === '' && errors.message === '') {
+    if (Object.values(newErrors).every((e) => !e)) {
       try {
         const response = await fetch('/api/contact', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, phone, message }),
         });
-
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Błąd sieci!');
-        }
-
+        if (!response.ok) throw new Error(data.error || 'Błąd sieci!');
         setStatusMessage(data.message);
-        // Reset form
         setEmail('');
         setPhone('');
         setMessage('');
       } catch (error) {
-        console.error('Błąd:', error);
         setStatusMessage(error.message || 'Wystąpił błąd podczas wysyłania wiadomości');
       }
     }
-
     setIsSubmitting(false);
   };
 
   return (
-    <form className="contact contactform" name="myform" onSubmit={handleSubmit}>
-      <p>Formularz kontaktowy:</p>
-      <div>
-        <label htmlFor="mail">E-mail:</label>
-        <input
-          type="email"
-          name="Email"
-          id="mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={isSubmitting}
-        />
-        <br />
-        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+    <form
+      name="myform"
+      onSubmit={handleSubmit}
+      className="rounded-2xl border border-white/10 bg-brand-card/50 p-6 shadow-xl sm:p-8"
+    >
+      <h2 className="text-xl font-semibold text-brand-green">Formularz kontaktowy</h2>
+      <div className="mt-6 space-y-5">
+        <div>
+          <label htmlFor="mail" className="mb-1.5 block text-sm font-medium text-gray-300">
+            E-mail
+          </label>
+          <input
+            type="email"
+            name="Email"
+            id="mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isSubmitting}
+            className="input-field"
+            placeholder="twoj@email.pl"
+          />
+          {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
+        </div>
+        <div>
+          <label htmlFor="number" className="mb-1.5 block text-sm font-medium text-gray-300">
+            Telefon
+          </label>
+          <input
+            type="tel"
+            name="Number"
+            id="number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            disabled={isSubmitting}
+            className="input-field"
+            placeholder="123456789"
+          />
+          {errors.phone && <p className="mt-1 text-sm text-red-400">{errors.phone}</p>}
+        </div>
+        <div>
+          <label htmlFor="msg" className="mb-1.5 block text-sm font-medium text-gray-300">
+            Wiadomość
+          </label>
+          <textarea
+            name="Message"
+            id="msg"
+            rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            disabled={isSubmitting}
+            className="input-field min-h-[120px] resize-y"
+            placeholder="Treść wiadomości..."
+          />
+          {errors.message && <p className="mt-1 text-sm text-red-400">{errors.message}</p>}
+        </div>
+        {statusMessage && (
+          <p
+            className={`rounded-lg px-3 py-2 text-sm font-medium ${
+              statusMessage.includes('Wysłano') ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+            }`}
+          >
+            {statusMessage}
+          </p>
+        )}
+        <button type="submit" disabled={isSubmitting} className="btn-primary w-full sm:w-auto">
+          {isSubmitting ? 'Wysyłanie...' : 'Wyślij'}
+        </button>
       </div>
-      <div>
-        <label htmlFor="number">Telefon:</label>
-        <input
-          type="tel"
-          name="Number"
-          id="number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          disabled={isSubmitting}
-        />
-        <br />
-        {errors.phone && <span style={{ color: 'red' }}>{errors.phone}</span>}
-      </div>
-      <div className="textarea">
-        <label htmlFor="msg">Wiadomość:</label>
-        <br />
-        <textarea
-          name="Message"
-          id="msg"
-          cols="30"
-          rows="10"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={isSubmitting}
-        ></textarea>
-      </div>
-      {errors.message && <span style={{ color: 'red' }}>{errors.message}</span>}
-      <div className="status-message" style={{ marginTop: '10px', fontWeight: 'bold' }}>
-        {statusMessage}
-      </div>
-      <button type="submit" name="Login" value="submit" className="border" disabled={isSubmitting}>
-        {isSubmitting ? 'Wysyłanie...' : 'Wyślij'}
-      </button>
     </form>
   );
 }
-

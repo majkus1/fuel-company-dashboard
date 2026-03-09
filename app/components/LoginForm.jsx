@@ -1,8 +1,8 @@
-// app/components/LoginForm.jsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [username, setUsername] = useState('');
@@ -19,12 +19,9 @@ export default function LoginForm() {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-
       const data = await response.json();
 
       if (!response.ok) {
@@ -32,40 +29,62 @@ export default function LoginForm() {
         setIsSubmitting(false);
         return;
       }
-
-      // Success - redirect to admin panel
       router.push('/admin/update-price');
-    } catch (error) {
-      console.error('Login error:', error);
+    } catch (err) {
       setError('Wystąpił błąd podczas logowania');
       setIsSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="login-to-panel">
-      <h1>AGMAR</h1>
-      {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Login"
-        required
-        disabled={isSubmitting}
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Hasło"
-        required
-        disabled={isSubmitting}
-      />
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Logowanie...' : 'Zaloguj'}
-      </button>
-    </form>
+    <div className="flex min-h-screen items-center justify-center bg-brand-slate px-4">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-brand-card/80 p-8 shadow-2xl backdrop-blur-sm">
+        <h1 className="text-center text-3xl font-bold text-brand-green">AGMAR</h1>
+        <p className="mt-2 text-center text-sm text-gray-400">Panel administracyjny</p>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          {error && (
+            <div className="rounded-xl bg-red-500/20 px-4 py-3 text-sm text-red-400">{error}</div>
+          )}
+          <div>
+            <label htmlFor="username" className="mb-1.5 block text-sm font-medium text-gray-300">
+              Login
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field"
+              placeholder="Login"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password" className="mb-1.5 block text-sm font-medium text-gray-300">
+              Hasło
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field"
+              placeholder="Hasło"
+              required
+            />
+          </div>
+          <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
+            {isSubmitting ? 'Logowanie...' : 'Zaloguj'}
+          </button>
+        </form>
+        <p className="mt-6 text-center">
+          <Link href="/" className="text-sm text-gray-400 underline hover:text-brand-green">
+            Powrót na stronę główną
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 }
-

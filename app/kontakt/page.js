@@ -1,8 +1,7 @@
-// app/kontakt/page.js
+import Image from 'next/image';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import ContactForm from '../components/ContactForm';
-import Image from 'next/image';
 
 export const metadata = {
   title: 'AGMAR paliwa b7 i b0 | Kontakt',
@@ -13,42 +12,46 @@ export const metadata = {
 export default function Contact() {
   return (
     <>
-      <header id="headernav">
-        <Navigation activePage="contact" />
-      </header>
+      <Navigation activePage="contact" />
+      <main className="min-h-screen pt-20">
+        <section className="container-narrow py-16 md:py-24">
+          <h1 className="section-heading">Kontakt</h1>
+          <div className="section-heading-accent" />
 
-      <div className="section wrapper" id="kontakt">
-        <section className="contact">
-          <h3>Kontakt</h3>
-          <div className="line line-left"></div>
-          <div className="shortline shortline-left"></div>
-          <div className="contactus">
-            <p>
-              <img src="/img/telephone.png" alt="znaczek słuchawki telefonu" />
-              <strong>501 060 285</strong>
-              <br />
-              42-440 Ogrodzieniec <br /> ul. Słowackiego 13a <br />
-              <Image
-                src="/img/flotacontact.webp"
-                alt="zdjęcie zrobione na trasie pojazdu przewożącego paliwo"
-                className="flotacontact"
-                width={230}
-                height={200}
-              />
-            </p>
-            <img
-              src="/img/contactphoto.webp"
-              alt="zdjęcie zrobione na trasie pojazdu przewożącego paliwo"
-              className="contactfoto"
-              loading="eager"
-            />
+          <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
+            <div className="flex flex-col gap-6 lg:gap-8">
+              <div className="flex items-center gap-4">
+                <img src="/img/telephone.png" alt="" className="h-8 w-8" />
+                <div>
+                  <a href="tel:+48501060285" className="text-xl font-semibold text-white hover:text-brand-green">
+                    501 060 285
+                  </a>
+                  <p className="mt-1 text-gray-400">42-440 Ogrodzieniec, ul. Słowackiego 13a</p>
+                </div>
+              </div>
 
-            <ContactForm />
+              <p className="text-gray-400 lg:max-w-sm">
+                Zadzwoń lub skorzystaj z formularza – chętnie odpowiemy na pytania dotyczące dostawy paliwa w województwie śląskim i małopolskim.
+              </p>
+
+              <div className="relative hidden aspect-[4/3] min-h-[200px] overflow-hidden rounded-2xl lg:block">
+                <Image
+                  src="/img/new-main-pht.jpg"
+                  alt="Pojazd AGMAR przewożący paliwo"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 50vw, 0"
+                />
+                <div className="contact-image-overlay absolute inset-0 rounded-2xl" aria-hidden />
+              </div>
+            </div>
+            <div>
+              <ContactForm />
+            </div>
           </div>
         </section>
-      </div>
+      </main>
       <Footer />
     </>
   );
 }
-

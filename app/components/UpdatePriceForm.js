@@ -1,4 +1,3 @@
-// app/components/UpdatePriceForm.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -14,47 +13,38 @@ export default function UpdatePriceForm() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated
     const checkAuth = async () => {
       try {
         const response = await fetch('/api/auth/check');
-        if (!response.ok) {
-          router.push('/login');
-          return;
-        }
-      } catch (error) {
+        if (!response.ok) router.push('/login');
+      } catch {
         router.push('/login');
-        return;
       }
     };
-
     checkAuth();
   }, [router]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [priceResponse, datePriceResponse] = await Promise.all([
+        const [priceRes, dateRes] = await Promise.all([
           fetch('/api/fuel-price'),
           fetch('/api/date-price'),
         ]);
-
-        if (priceResponse.ok) {
-          const priceData = await priceResponse.json();
-          setPrice(priceData.price);
+        if (priceRes.ok) {
+          const d = await priceRes.json();
+          setPrice(d.price);
         }
-
-        if (datePriceResponse.ok) {
-          const dateData = await datePriceResponse.json();
-          setDatPrice(dateData.datprice);
+        if (dateRes.ok) {
+          const d = await dateRes.json();
+          setDatPrice(d.datprice);
         }
-      } catch (error) {
-        console.error('Error fetching data', error);
+      } catch (e) {
+        console.error('Error fetching data', e);
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -62,39 +52,27 @@ export default function UpdatePriceForm() {
     e.preventDefault();
     setMessage('');
     setIsSubmitting(true);
-
     try {
-      const [priceResponse, dateResponse] = await Promise.all([
+      const [priceRes, dateRes] = await Promise.all([
         fetch('/api/fuel-price', {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ price }),
         }),
         fetch('/api/date-price', {
           method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ datprice }),
         }),
       ]);
-
-      if (!priceResponse.ok || !dateResponse.ok) {
-        const priceData = await priceResponse.json();
-        throw new Error(priceData.error || 'Failed to update');
+      if (!priceRes.ok || !dateRes.ok) {
+        const d = await priceRes.json();
+        throw new Error(d.error || 'Failed to update');
       }
-
       setMessage('✅ Cena i data zostały zaktualizowane pomyślnie!');
-      
-      // Refresh the page data after 1 second
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    } catch (error) {
-      console.error('Update error:', error);
-      setMessage(`❌ ${error.message || 'Nie udało się zaktualizować ceny i daty'}`);
+      setTimeout(() => window.location.reload(), 1000);
+    } catch (err) {
+      setMessage(`❌ ${err.message || 'Nie udało się zaktualizować ceny i daty'}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -104,75 +82,88 @@ export default function UpdatePriceForm() {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
       router.push('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch (e) {
+      console.error('Logout error', e);
     }
   };
 
   if (loading) {
     return (
-      <div className="login-to-panel">
-        <h1>AGMAR</h1>
-        <p>Ładowanie...</p>
+      <div className="flex min-h-screen items-center justify-center bg-brand-slate px-4">
+        <div className="rounded-2xl border border-white/10 bg-brand-card/80 px-8 py-12 text-center">
+          <h1 className="text-2xl font-bold text-brand-green">AGMAR</h1>
+          <p className="mt-4 text-gray-400">Ładowanie...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="login-to-panel">
-      <h1>AGMAR</h1>
-      
-      {message && (
-        <div style={{ 
-          margin: '10px 0', 
-          padding: '10px', 
-          backgroundColor: message.includes('✅') ? '#d4edda' : '#f8d7da',
-          color: message.includes('✅') ? '#155724' : '#721c24',
-          borderRadius: '5px'
-        }}>
-          {message}
+    <div className="flex min-h-screen items-center justify-center bg-brand-slate px-4 py-12">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-brand-card/80 p-8 shadow-2xl backdrop-blur-sm">
+        <h1 className="text-center text-3xl font-bold text-brand-green">AGMAR</h1>
+        <p className="mt-2 text-center text-sm text-gray-400">Aktualizacja ceny i daty</p>
+
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          {message && (
+            <div
+              className={`rounded-xl px-4 py-3 text-sm font-medium ${
+                message.includes('✅')
+                  ? 'bg-emerald-500/20 text-emerald-400'
+                  : 'bg-red-500/20 text-red-400'
+              }`}
+            >
+              {message}
+            </div>
+          )}
+          <div>
+            <label htmlFor="price" className="mb-1.5 block text-sm font-medium text-gray-300">
+              Nowa cena
+            </label>
+            <input
+              type="text"
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field"
+              placeholder="Nowa cena"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="datprice" className="mb-1.5 block text-sm font-medium text-gray-300">
+              Data nowej ceny
+            </label>
+            <input
+              type="text"
+              id="datprice"
+              value={datprice}
+              onChange={(e) => setDatPrice(e.target.value)}
+              disabled={isSubmitting}
+              className="input-field"
+              placeholder="Data nowej ceny"
+              required
+            />
+          </div>
+          <button type="submit" disabled={isSubmitting} className="btn-primary w-full">
+            {isSubmitting ? 'Aktualizacja...' : 'Zmień cenę i datę'}
+          </button>
+        </form>
+
+        <div className="mt-8 flex flex-col items-center gap-4 border-t border-white/10 pt-6">
+          <Link href="/" className="text-sm text-gray-400 underline hover:text-brand-green">
+            Strona główna
+          </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="text-sm text-gray-400 underline hover:text-red-400"
+          >
+            Wyloguj
+          </button>
         </div>
-      )}
-
-      <input
-        type="text"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-        placeholder="Nowa cena"
-        required
-        disabled={isSubmitting}
-      />
-      <input
-        type="text"
-        value={datprice}
-        onChange={(e) => setDatPrice(e.target.value)}
-        placeholder="Data nowej ceny"
-        required
-        disabled={isSubmitting}
-      />
-      <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Aktualizacja...' : 'Zmień cenę i datę'}
-      </button>
-
-      <div style={{ marginTop: '20px', display: 'flex', gap: '10px', justifyContent: 'center', flexDirection: 'column', gap: '50px' }}>
-        <Link href="/" style={{ color: '#fff', textDecoration: 'underline', marginTop: '25px' }}>
-          Strona główna
-        </Link>
-        <button
-          type="button"
-          onClick={handleLogout}
-          style={{ 
-            background: 'transparent', 
-            border: 'none', 
-            color: '#fff', 
-            textDecoration: 'underline',
-            cursor: 'pointer'
-          }}
-        >
-          Wyloguj
-        </button>
       </div>
-    </form>
+    </div>
   );
 }
-

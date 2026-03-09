@@ -1,78 +1,90 @@
-// app/components/Navigation.js
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+const navLinks = [
+  { href: '/', label: 'Strona główna', page: 'home' },
+  { href: '/o-firmie', label: 'O firmie', page: 'about' },
+  { href: '/oferta', label: 'Nasza oferta', page: 'offer' },
+  { href: '/kontakt', label: 'Kontakt', page: 'contact' },
+];
 
 export default function Navigation({ activePage }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <>
-      <nav className="navdesktop-list">
-        <div className="nav-item">
-          <Link href="/">
-            <img src="/img/oil.png" alt="znak logo krople paliwa" className="logo" />
-            <p>AGMAR</p>
+      <header
+        className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 backdrop-blur-xl"
+        style={{ backgroundColor: 'lab(21.8954% -.315487 -10.5652 / .8)' }}
+      >
+        <nav className="container-narrow flex h-16 items-center justify-between lg:h-18">
+          <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-90">
+            <Image
+              src="/img/oils.png"
+              alt="AGMAR"
+              width={44}
+              height={44}
+              className="h-10 w-10 object-contain"
+              style={{ filter: 'brightness(1.4) contrast(1.2)' }}
+            />
+            <span className="text-xl font-bold tracking-tight text-brand-green sm:text-2xl">AGMAR</span>
           </Link>
-        </div>
-        <Link href="/" className={activePage === 'home' ? 'active' : ''}>
-          Strona główna
-        </Link>
-        <Link href="/o-firmie" className={activePage === 'about' ? 'active' : ''}>
-          O firmie
-        </Link>
-        <Link href="/oferta" className={activePage === 'offer' ? 'active' : ''}>
-          Nasza oferta
-        </Link>
-        <Link href="/kontakt" className={activePage === 'contact' ? 'active' : ''}>
-          Kontakt
-        </Link>
-      </nav>
 
-      <nav className="mobilenav">
-        <li className="nav-item">
-          <Link href="/">
-            <img src="/img/oil.png" alt="znak logo krople paliwa" className="logo" />
-            <p>AGMAR</p>
-          </Link>
-        </li>
+          <div className="hidden items-center gap-8 md:flex">
+            {navLinks.map(({ href, label, page }) => (
+              <Link
+                key={href}
+                href={href}
+                className={`text-sm font-medium transition-colors hover:text-brand-green ${
+                  activePage === page ? 'text-brand-green' : 'text-gray-300'
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
 
-        <button className="menu-button" onClick={() => setIsOpen(!isOpen)}>
-          <p className="burger">{isOpen ? 'X' : '☰'}</p>
-        </button>
-        <nav className={`sidebar ${isOpen ? 'open' : ''}`}>
-          <Link
-            href="/"
-            onClick={() => setIsOpen(false)}
-            className={`nav-mob first ${activePage === 'home' ? 'active' : ''}`}
+          {/* Mobile menu button */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/10 md:hidden"
+            aria-label={mobileOpen ? 'Zamknij menu' : 'Otwórz menu'}
           >
-            Strona Główna
-          </Link>
-          <Link
-            href="/o-firmie"
-            onClick={() => setIsOpen(false)}
-            className={`nav-mob ${activePage === 'about' ? 'active' : ''}`}
-          >
-            O firmie
-          </Link>
-          <Link
-            href="/oferta"
-            onClick={() => setIsOpen(false)}
-            className={`nav-mob ${activePage === 'offer' ? 'active' : ''}`}
-          >
-            Oferta
-          </Link>
-          <Link
-            href="/kontakt"
-            onClick={() => setIsOpen(false)}
-            className={`nav-mob ${activePage === 'contact' ? 'active' : ''}`}
-          >
-            Kontakt
-          </Link>
+            {mobileOpen ? (
+              <span className="text-2xl">✕</span>
+            ) : (
+              <Image src="/img/hamburger.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" />
+            )}
+          </button>
         </nav>
-      </nav>
+      </header>
+
+      {/* Mobile drawer */}
+      <div
+        className={`fixed inset-0 z-40 bg-brand-slate/95 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+          mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        aria-hidden={!mobileOpen}
+      >
+        <nav className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 pt-20">
+          {navLinks.map(({ href, label, page }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={() => setMobileOpen(false)}
+              className={`text-2xl font-medium transition-colors hover:text-brand-green ${
+                activePage === page ? 'text-brand-green' : 'text-white'
+              }`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </>
   );
 }
-

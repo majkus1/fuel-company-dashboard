@@ -1,6 +1,13 @@
 // app/layout.js
 import Script from 'next/script';
-import '../styles/App.scss';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import './globals.css';
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-sans',
+  display: 'swap',
+});
 
 export const metadata = {
   icons: {
@@ -10,7 +17,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pl">
+    <html lang="pl" className={plusJakarta.variable}>
       <head>
         <Script
           id="gtag-src"
@@ -28,7 +35,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
       </head>
-      <body>{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 }

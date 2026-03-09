@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@config "../tailwind.config.js";
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    @apply bg-brand-slate text-white antialiased;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+  .section-heading {
+    @apply text-2xl font-semibold tracking-tight sm:text-3xl text-white;
+  }
+  .section-heading-accent {
+    @apply mt-1 h-1 w-16 rounded-full bg-brand-green;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-brand-green px-6 py-3 font-medium text-brand-slate transition-all hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-brand-slate disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-xl border-2 border-brand-green px-6 py-3 font-medium text-white transition-all hover:bg-brand-green/10 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-brand-slate;
+  }
+  .input-field {
+    @apply w-full rounded-xl border border-brand-muted bg-brand-card px-4 py-3 text-white placeholder:text-gray-400 focus:border-brand-green focus:outline-none focus:ring-1 focus:ring-brand-green;
+  }
+}
+
+/* Overlay for hero - keep image visible */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 20, 25, 0.4) 0%,
+    rgba(34, 40, 49, 0.7) 60%,
+    rgba(34, 40, 49, 0.95) 100%
+  );
+}
+
+/* Overlay na zdjęciu w Kontakt – ten sam klimat co hero */
+.contact-image-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 20, 25, 0.35) 0%,
+    rgba(34, 40, 49, 0.65) 50%,
+    rgba(34, 40, 49, 0.85) 100%
+  );
+}
+
+button, a {
+  cursor: pointer;
+}
