@@ -25,14 +25,14 @@ export default function Home() {
             sizes="100vw"
           />
           <div className="hero-overlay absolute inset-0" />
-          <div className="container-narrow relative z-10 flex flex-col items-center text-center">
+          <div className="container-narrow relative z-10 flex flex-col items-start text-left">
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               Sprzedaż olejów napędowych
             </h1>
             <p className="mt-4 text-lg text-white/90 sm:text-xl md:text-2xl">
               z dostawą na terenach województwa śląskiego oraz małopolskiego.
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-6 flex flex-wrap items-center justify-start gap-4">
               <Link href="/o-firmie" className="btn-primary">
                 O firmie
               </Link>
