@@ -29,7 +29,7 @@ export default function Home() {
             <h1 className="text-4xl font-bold tracking-tight text-white drop-shadow-lg sm:text-5xl md:text-6xl lg:text-7xl">
               Sprzedaż olejów napędowych
             </h1>
-            <p className="mt-4 max-w-2xl text-lg text-white/90 sm:text-xl md:text-2xl">
+            <p className="mt-4 text-lg text-white/90 sm:text-xl md:text-2xl">
               z dostawą na terenach województwa śląskiego oraz małopolskiego.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4">

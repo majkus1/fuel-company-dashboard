@@ -7,7 +7,7 @@ import Image from 'next/image';
 const navLinks = [
   { href: '/', label: 'Strona główna', page: 'home' },
   { href: '/o-firmie', label: 'O firmie', page: 'about' },
-  { href: '/oferta', label: 'Nasza oferta', page: 'offer' },
+  { href: '/oferta', label: 'Oferta', page: 'offer' },
   { href: '/kontakt', label: 'Kontakt', page: 'contact' },
 ];
 
@@ -30,7 +30,7 @@ export default function Navigation({ activePage }) {
               className="h-10 w-10 object-contain"
               style={{ filter: 'brightness(1.4) contrast(1.2)' }}
             />
-            <span className="text-xl font-bold tracking-tight text-brand-green sm:text-2xl">AGMAR</span>
+            <span className="font-bold tracking-tight text-brand-green" style={{ fontSize: '25px' }}>AGMAR</span>
           </Link>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -38,7 +38,7 @@ export default function Navigation({ activePage }) {
               <Link
                 key={href}
                 href={href}
-                className={`text-sm font-medium transition-colors hover:text-brand-green ${
+                className={`text-[16px] font-medium transition-colors hover:text-brand-green ${
                   activePage === page ? 'text-brand-green' : 'text-gray-300'
                 }`}
               >
@@ -55,7 +55,7 @@ export default function Navigation({ activePage }) {
             aria-label={mobileOpen ? 'Zamknij menu' : 'Otwórz menu'}
           >
             {mobileOpen ? (
-              <span className="text-2xl">✕</span>
+              <span className="inline-flex h-6 w-6 items-center justify-center text-3xl leading-none text-white">✕</span>
             ) : (
               <Image src="/img/hamburger.png" alt="" width={24} height={24} className="h-6 w-6 object-contain" />
             )}

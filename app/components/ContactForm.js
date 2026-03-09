@@ -8,6 +8,7 @@ export default function ContactForm() {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState({ email: '', phone: '', message: '' });
   const [statusMessage, setStatusMessage] = useState('');
+  const [statusIsSuccess, setStatusIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateEmail = (email) => {
@@ -27,6 +28,7 @@ export default function ContactForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setStatusMessage('');
+    setStatusIsSuccess(false);
     setIsSubmitting(true);
 
     const newErrors = { email: '', phone: '', message: '' };
@@ -44,11 +46,13 @@ export default function ContactForm() {
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Błąd sieci!');
+        setStatusIsSuccess(true);
         setStatusMessage(data.message);
         setEmail('');
         setPhone('');
         setMessage('');
       } catch (error) {
+        setStatusIsSuccess(false);
         setStatusMessage(error.message || 'Wystąpił błąd podczas wysyłania wiadomości');
       }
     }
@@ -114,7 +118,7 @@ export default function ContactForm() {
         {statusMessage && (
           <p
             className={`rounded-lg px-3 py-2 text-sm font-medium ${
-              statusMessage.includes('Wysłano') ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+              statusIsSuccess ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
             }`}
           >
             {statusMessage}
