@@ -40,13 +40,25 @@ export default function About() {
           <h1 className="section-heading">O firmie</h1>
           <div className="section-heading-accent" />
 
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {highlights.map(({ img, alt, title }) => (
+              <div
+                key={title}
+                className="flex flex-col items-center rounded-2xl border border-white/10 bg-brand-card/50 p-6 text-center transition-colors hover:border-brand-green/30"
+              >
+                <img src={img} alt={alt} className="h-14 w-14 object-contain" />
+                <p className="mt-4 font-medium text-white">{title}</p>
+              </div>
+            ))}
+          </div>
+
           <div className="mt-12 space-y-6">
               <p className="leading-relaxed text-gray-300">
                 Nasza firma oferuje głównie olej napędowy najwyższej jakości oraz transport paliwa na terenie
                 województwa śląskiego oraz małopolskiego. Dostarczamy wyłącznie paliwo od największych polskich
                 producentów.
               </p>
-              <div className="relative aspect-[16/6] overflow-hidden rounded-2xl lg:aspect-[760/230]">
+              <div className="relative aspect-[16/6] overflow-hidden rounded-2xl lg:mx-auto lg:max-w-[700px] lg:aspect-[760/230]">
                 <Image
                   src="/img/flota3.webp"
                   alt="pojazd firmy a w tle rafineria"
@@ -66,18 +78,6 @@ export default function About() {
                 Obsługujemy indywidualnych odbiorców, bazy transportowe oraz stacje paliw. Dbamy o naszych klientów a
                 każda dostawa posiada świadectwo jakości.
               </p>
-          </div>
-
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
-            {highlights.map(({ img, alt, title }) => (
-              <div
-                key={title}
-                className="flex flex-col items-center rounded-2xl border border-white/10 bg-brand-card/50 p-6 text-center transition-colors hover:border-brand-green/30"
-              >
-                <img src={img} alt={alt} className="h-14 w-14 object-contain" />
-                <p className="mt-4 font-medium text-white">{title}</p>
-              </div>
-            ))}
           </div>
         </section>
       </main>
