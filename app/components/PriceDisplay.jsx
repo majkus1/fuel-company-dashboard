@@ -30,9 +30,11 @@ export default async function PriceDisplay() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-6 sm:py-4">
         <div className="order-last flex items-center justify-between gap-4 px-4 py-3 sm:order-first sm:flex-1 sm:justify-start sm:gap-4 sm:px-0 sm:py-0" style={{ justifyContent: 'center' }}>
           <div className="flex flex-row items-center gap-3">
-            <div>
-              <span className="text-xs text-gray-400">Cena z dnia </span>
-              <span className="font-medium italic text-white">{datprice}</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-[0.7rem] font-medium uppercase tracking-wide text-gray-400">
+                Cena z dnia
+              </span>
+              <span className="text-sm font-semibold text-white sm:text-base">{datprice}</span>
             </div>
             <div className="rounded-lg bg-black px-3 py-1.5">
               <span className="text-sm font-bold text-white">ON</span>
